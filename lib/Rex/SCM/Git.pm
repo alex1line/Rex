@@ -92,7 +92,7 @@ sub checkout {
     Rex::Logger::info( "Pulling "
         . $repo_info->{"url"} . " to "
         . ( $checkout_to ? $checkout_to : "." ) );
-    run "git pull origin $branch", cwd => $checkout_to;
+    my $out = run "git pull origin $branch", cwd => $checkout_to;
     unless ( $? == 0 ) {
       Rex::Logger::info( "Error pulling.", "warn" );
       Rex::Logger::info($out);
@@ -102,7 +102,7 @@ sub checkout {
     if ( exists $checkout_opt->{"tag"} ) {
       my $tag = $checkout_opt->{tag};
       Rex::Logger::info( "Switching to tag " . $tag );
-      my $out = run "git fetch origin", cwd => $checkout_to;
+      $out = run "git fetch origin", cwd => $checkout_to;
       unless ( $? == 0 ) {
         Rex::Logger::info( "Error switching to tag.", "warn" );
         Rex::Logger::info($out);
